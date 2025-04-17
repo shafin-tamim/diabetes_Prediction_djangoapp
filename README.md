@@ -45,4 +45,8 @@ python manage.py runserver
 ## Requirements
 - Python 3.8+
 - Django 3.2+
-- Other dependencies listed in requirements.txt
+- NumPy
+- Pandas
+- Scikit-learn
+- Joblib
+- Other dependencies are listed in requirements.txt
