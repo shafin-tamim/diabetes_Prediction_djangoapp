@@ -12,13 +12,13 @@ def predict(request):
     if request.method == 'POST':
         try:
             # Load the existing model
-            model_path = 'F:/Django/app/diabetes_Prediction/ML/diabetes_model.pkl'
+            model_path = 'F:/Django/app/diabetes_Prediction_djangoapp/ML/diabetes_model.pkl'
             if os.path.exists(model_path):
                 model = joblib.load(model_path)
                 if not isinstance(model, LogisticRegression):
-                    return JsonResponse({'error': 'Invalid model format'})
+                    return JsonResponse({'status': 'error', 'message': 'Invalid model format'})
             else:
-                return JsonResponse({'error': 'Model file not found'})
+                return JsonResponse({'status': 'error', 'message': 'Model file not found'})
 
             # Get form data
             features = [
@@ -37,9 +37,13 @@ def predict(request):
             prediction = model.predict(features_array)[0]
             result = "The result is positive - You may have diabetes" if prediction == 1 else "The result is negative - You are healthy"
             
-            return JsonResponse({'result': result})
+            return JsonResponse({
+                'status': 'success',
+                'message': result,
+                'prediction': int(prediction)
+            })
 
         except Exception as e:
-            return JsonResponse({'error': f'Prediction error: {str(e)}'})
+            return JsonResponse({'status': 'error', 'message': f'Prediction error: {str(e)}'})
     
-    return JsonResponse({'error': 'Invalid request method'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

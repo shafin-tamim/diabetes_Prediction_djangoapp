@@ -30,8 +30,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-5. Apply database migrations
+5. Initialize and apply database migrations
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
@@ -43,10 +44,13 @@ python manage.py runserver
 7. Open your web browser and navigate to `http://127.0.0.1:8000`
 
 ## Requirements
-- Python 3.8+
-- Django 3.2+
-- NumPy
-- Pandas
-- Scikit-learn
-- Joblib
-- Other dependencies are listed in requirements.txt
+// ...existing code...
+
+## Troubleshooting
+
+If you see the message "You have X unapplied migration(s)", run:
+```bash
+python manage.py migrate
+```
+
+This will apply all pending database migrations and resolve the warning message.

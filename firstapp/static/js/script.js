@@ -3,6 +3,7 @@ document.getElementById('predictionForm').addEventListener('submit', async (e) =
     
     const formData = new FormData(e.target);
     const resultDiv = document.getElementById('result');
+    resultDiv.textContent = 'Processing...';
     
     try {
         const response = await fetch('/predict/', {
@@ -14,10 +15,16 @@ document.getElementById('predictionForm').addEventListener('submit', async (e) =
         });
         
         const data = await response.json();
-        resultDiv.textContent = data.result;
-        resultDiv.className = data.result.includes('positive') ? 'positive' : 'negative';
+        
+        if (data.status === 'success') {
+            resultDiv.textContent = data.message;
+            resultDiv.className = data.prediction === 1 ? 'positive' : 'negative';
+        } else {
+            resultDiv.textContent = data.message;
+            resultDiv.className = 'error';
+        }
     } catch (error) {
-        resultDiv.textContent = 'Error making prediction';
-        resultDiv.className = '';
+        resultDiv.textContent = 'Error making prediction. Please try again.';
+        resultDiv.className = 'error';
     }
 });
